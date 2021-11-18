@@ -52,7 +52,7 @@ dll_t* get_sub_list_2(dll_t* sub_list_2, bn_t* big_num) {
         j++;
     }
 
-    // transfere os digitos para a lista 1
+    // transfere os digitos para a lista 2
     for (int k = j+i; k < strlen(big_num->bn_2); k++) {
         push_front_dll(sub_list_2, big_num->bn_2[k] - '0');
     }
