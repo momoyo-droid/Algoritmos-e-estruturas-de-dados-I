@@ -116,11 +116,12 @@ dll_t* find_sum_sub_lists(dll_t* sub_list_1, dll_t* sub_list_2) {
     dll_t* dll_result = create_dll();
     node_t *node_1 = sub_list_1->head, *node_2 = sub_list_2->head;
     int carry = 0, sum = 0;
-    
-    // realiza a soma entre os digitos e adiciona na lista resultante que conterá
-    // os valores finais
+
+    // realiza a soma entre os digitos e adiciona na lista resultante que
+    // conterá os valores finais
     while (node_1 != NULL && node_2 != NULL) {
         sum = node_1->data + node_2->data + carry;
+
         push_front_dll(dll_result, sum % 10);
 
         if (sum > 9) {
@@ -134,7 +135,8 @@ dll_t* find_sum_sub_lists(dll_t* sub_list_1, dll_t* sub_list_2) {
     // caso onde o inicio da lista dois é vazio
     while (node_1 != NULL && node_2 == NULL) {
         sum = node_1->data + carry;
-        push_front_dll(dll_result, sum);
+
+        push_front_dll(dll_result, sum % 10);
 
         if (sum > 9) {
             carry = 1;
@@ -147,7 +149,8 @@ dll_t* find_sum_sub_lists(dll_t* sub_list_1, dll_t* sub_list_2) {
     // caso onde o inicio da lista um é vazio
     while (node_2 != NULL && node_1 == NULL) {
         sum = node_2->data + carry;
-        push_front_dll(dll_result, sum);
+
+        push_front_dll(dll_result, sum % 10);
 
         if (sum > 9) {
             carry = 1;
@@ -157,7 +160,7 @@ dll_t* find_sum_sub_lists(dll_t* sub_list_1, dll_t* sub_list_2) {
 
         node_2 = node_2->next;
     }
-    // se o carry ainda persistir, insere na lista resultante 
+    // se o carry ainda persistir, insere na lista resultante
     if (carry == 1) {
         push_front_dll(dll_result, carry);
     }
@@ -178,7 +181,7 @@ boolean compare_big_num(dll_t* sub_list_1, dll_t* sub_list_2) {
     // percorre a lista e compara qual numero é maior
     while (sub_list_1->head != NULL && sub_list_2->head != NULL) {
         if (sub_list_1->head->data > sub_list_2->head->data) {
-            return !sub_list_1->flag;
+            return sub_list_1->flag;
         }
         if (sub_list_2->head->data > sub_list_1->head->data) {
             return !sub_list_2->flag;
@@ -195,7 +198,8 @@ boolean is_equal_bn(dll_t* sub_list_1, dll_t* sub_list_2) {
     int size_sub_list_1 = get_size_dll(sub_list_1);
     int size_sub_list_2 = get_size_dll(sub_list_2);
     node_t *node_1 = sub_list_1->head, *node_2 = sub_list_2->head;
-    // verifica se os numeros sao iguais, contabiliza e compara com o tamanho de ambas as listas
+    // verifica se os numeros sao iguais, contabiliza e compara com o tamanho de
+    // ambas as listas
     while (node_1 != NULL && node_2 != NULL) {
         if (node_1->data == node_2->data) {
             count_equal_num++;
@@ -215,7 +219,7 @@ boolean is_sml_bn(dll_t* sub_list_1, dll_t* sub_list_2) {
     assert(sub_list_1 != NULL && sub_list_2 != NULL);
     // verifica de acordo com as funcoes anteriores, qual numero é menor
     return !compare_big_num(sub_list_1, sub_list_2) &&
-           !is_equal_bn(sub_list_1, sub_list_2);
+           is_equal_bn(sub_list_1, sub_list_2);
 }
 
 void set_flag(dll_t* d, boolean flag) {

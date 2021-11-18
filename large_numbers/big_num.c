@@ -30,6 +30,7 @@ dll_t* get_sub_list_1(dll_t* sub_list_1, bn_t* big_num) {
         set_flag(sub_list_1, 1);
         i++;
     }
+
     // transfere os digitos para a lista 1
     for (; i < strlen(big_num->bn_1); i++) {
         push_front_dll(sub_list_1, big_num->bn_1[i] - '0');
@@ -45,9 +46,15 @@ dll_t* get_sub_list_2(dll_t* sub_list_2, bn_t* big_num) {
         i++;
     }
 
+    int j = 0;
+    // tratando numeros com zeros a esquerda
+    while (big_num->bn_2[j] == '0') {
+        j++;
+    }
+
     // transfere os digitos para a lista 1
-    for (; i < strlen(big_num->bn_2); i++) {
-        push_front_dll(sub_list_2, big_num->bn_2[i] - '0');
+    for (int k = j+i; k < strlen(big_num->bn_2); k++) {
+        push_front_dll(sub_list_2, big_num->bn_2[k] - '0');
     }
 
     return sub_list_2;
