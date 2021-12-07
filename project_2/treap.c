@@ -42,7 +42,7 @@ node_t* right_rotation(node_t* p) {
     return q;
 }
 
-node_t* push_bst(node_t* p, int value, int* flag, int priority) {
+node_t* push_bst(node_t* p, int value, int priority) {
     if (p == NULL) {
         node_t* new_node;
         new_node = malloc(sizeof(node_t));
@@ -55,7 +55,7 @@ node_t* push_bst(node_t* p, int value, int* flag, int priority) {
     }
     if (value < p->value) {  // se o valor a ser inserido for menor que o
                              // existente, insere no lado esquerdo
-        p->left = push_bst(p->left, value, flag, priority);
+        p->left = push_bst(p->left, value, priority);
         if (p->left->priority > p->priority) {  // se a prioridade for maior,
                                                 // rotacione para a direita
             p = right_rotation(p);
@@ -64,9 +64,9 @@ node_t* push_bst(node_t* p, int value, int* flag, int priority) {
         printf("Elemento ja existente\n");
     } else {
         p->right =
-            push_bst(p->right, value, flag,
-                     priority);  // se o valor a ser inserido for menor que o
-                                 // existente, insere no lado esquerdo
+            push_bst(p->right, value,
+                     priority);  // se o valor a ser inserido for maior que o
+                                 // existente, insere no lado direito
         if (p->right->priority > p->priority) {  // se a prioridade for maior,
                                                  // rotacione para a esquerda
             p = left_rotation(p);
@@ -75,10 +75,8 @@ node_t* push_bst(node_t* p, int value, int* flag, int priority) {
     return p;
 }
 
-boolean push_treap(treap_t* tree, int value, int priority) {
-    int flag;
-    tree->root = push_bst(tree->root, value, &flag, priority);
-    return flag;
+void push_treap(treap_t* tree, int value, int priority) {
+    tree->root = push_bst(tree->root, value, priority);
 }
 
 void print_pre_order(node_t* p) {
@@ -102,7 +100,7 @@ void print_pos_order(node_t* p) {
     printf("(%d, %d) ", p->value, p->priority);
 }
 
-void treap_width(queue_t* q, node_t* arv) {
+void treap_width(queue_t* q) {
     while (!queue_empty(q)) {
         node_t* p;
         pop_queue(q, &p);
@@ -115,7 +113,7 @@ void treap_width(queue_t* q, node_t* arv) {
 void print_width(treap_t* tree) {
     queue_t* q = create_queue(sizeof(node_t*));
     push_queue(q, &(tree->root));
-    treap_width(q, tree->root);
+    treap_width(q);
     free_queue(q);
 }
 
